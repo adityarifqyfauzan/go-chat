@@ -42,3 +42,12 @@ func (h *handler) Login(ctx *gin.Context) {
 	resp := h.u.Login(req)
 	utils.WriteToResponseBody(ctx, resp)
 }
+
+func (h *handler) Me(ctx *gin.Context) {
+	userID, _ := ctx.Get("user_id")
+	req := dto.Me{
+		AuthenticatedUser: userID.(int),
+	}
+	resp := h.u.Me(req)
+	utils.WriteToResponseBody(ctx, resp)
+}

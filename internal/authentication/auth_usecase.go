@@ -19,6 +19,7 @@ import (
 type Usecase interface {
 	Register(req dto.RegisterRequest) utils.WebResponse
 	Login(req dto.LoginRequest) utils.WebResponse
+	Me(req dto.Me) utils.WebResponse
 }
 
 type usecase struct {
@@ -100,4 +101,14 @@ func (u *usecase) Login(req dto.LoginRequest) utils.WebResponse {
 	return utils.NewResponse(http.StatusOK, "login successfully", map[string]interface{}{
 		"token": token,
 	})
+}
+
+func (u *usecase) Me(req dto.Me) utils.WebResponse {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id": req.AuthenticatedUser,
+	})
+	if err != nil {
+		panic(exception.NewUnprocessableEntityException(fmt.Sprintf("unable to find user: %v", err)))
+	}
+	return utils.NewResponse(http.StatusOK, "here is your data", user)
 }

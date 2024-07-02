@@ -67,7 +67,7 @@ func badRequestError(ctx *gin.Context, err any) bool {
 		return false
 	}
 
-	webResponse := utils.NewResponse(http.StatusUnauthorized, exception.Error, nil)
+	webResponse := utils.NewResponse(http.StatusBadRequest, exception.Error, nil)
 	utils.WriteToResponseBody(ctx, webResponse)
 
 	return true

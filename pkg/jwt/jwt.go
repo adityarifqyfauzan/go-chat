@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/adityarifqyfauzan/go-chat/config"
@@ -30,4 +31,24 @@ func SignToken(params *config.Params, userID int) (string, error) {
 	}
 
 	return tokenString, nil
+}
+
+func VerifyWithClaims(params *config.Params, tokenString string) (*CustomClaims, error) {
+	claims := &CustomClaims{}
+	jwtKey := []byte(params.Env.GetString("app.secret"))
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		if err == jwt.ErrSignatureInvalid {
+			return nil, fmt.Errorf("invalid signature")
+		}
+		return nil, fmt.Errorf("could not parse token: %v", err)
+	}
+	if !token.Valid {
+		return nil, fmt.Errorf("invalid token")
+	}
+
+	return claims, nil
 }
