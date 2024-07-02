@@ -1,6 +1,7 @@
 app:
   env: "development"
   name: "go-chat"
+  secret: "thisIsSecret"
   port:
     rest: ":1313"
 

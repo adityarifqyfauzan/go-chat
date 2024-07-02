@@ -11,6 +11,7 @@ import (
 
 	"github.com/adityarifqyfauzan/go-chat/config"
 	"github.com/adityarifqyfauzan/go-chat/internal"
+	"github.com/adityarifqyfauzan/go-chat/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,6 +30,8 @@ func (r *Server) Start() {
 		Addr:    r.params.Env.GetString("app.port.rest"),
 		Handler: engine,
 	}
+
+	engine.Use(middleware.ExceptionMiddleware())
 
 	// register routes
 	routes := internal.New(r.params, engine)
