@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	usermodel "github.com/adityarifqyfauzan/go-chat/internal/authentication/domain/model"
+	"github.com/adityarifqyfauzan/go-chat/internal/message/domain/model"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -34,6 +35,6 @@ func InitPostgreDB(conf *viper.Viper) *gorm.DB {
 		}
 
 	})
-	conn.AutoMigrate(&usermodel.User{})
+	conn.AutoMigrate(&usermodel.User{}, &model.Room{}, &model.Message{}, &model.UserRoom{})
 	return conn
 }

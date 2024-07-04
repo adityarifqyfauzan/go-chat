@@ -5,6 +5,7 @@ import (
 
 	"github.com/adityarifqyfauzan/go-chat/config"
 	"github.com/adityarifqyfauzan/go-chat/internal/authentication"
+	"github.com/adityarifqyfauzan/go-chat/internal/message"
 	"github.com/adityarifqyfauzan/go-chat/internal/user"
 	"github.com/gin-gonic/gin"
 )
@@ -26,6 +27,7 @@ func (r *Routes) RegisterRoutes() {
 	api := r.engine.Group("api")
 	authentication.New(r.params, api)
 	user.New(r.params, api)
+	message.New(r.params, api)
 
 	// health check
 	api.GET("/hello", func(ctx *gin.Context) {
